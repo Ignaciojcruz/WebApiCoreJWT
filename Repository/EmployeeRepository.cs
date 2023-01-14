@@ -7,10 +7,12 @@ namespace WebApiCoreJWT.Repository
     public class EmployeeRepository : IEmployees
     {
         readonly DataBaseContext _dbContext = new();
+        
 
         public EmployeeRepository(DataBaseContext dbContext)
         {
             _dbContext = dbContext;
+            
         }
 
         public List<Employee> GetEmployeeDetails() 
