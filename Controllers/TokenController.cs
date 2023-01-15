@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+
 
 namespace WebApiCoreJWT.Controllers
 {
@@ -16,18 +16,23 @@ namespace WebApiCoreJWT.Controllers
         public IConfiguration _configuration;
         private readonly DataBaseContext _context;
 
+        public TokenController(IConfiguration config, DataBaseContext context)
+        {
+            _configuration = config;
+            _context = context;
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(UserInfo _userData)
         {
-            if(_userData != null && _userData.Email != null && _userData.Password != null)
+            if (_userData != null && _userData.Email != null && _userData.Password != null)
             {
                 var user = await GetUser(_userData.Email, _userData.Password);
 
-                if(user != null)
+                if (user != null)
                 {
                     //create claims details based on the user information
-                    var claims = new[]
-                    {
+                    var claims = new[] {
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
@@ -50,7 +55,7 @@ namespace WebApiCoreJWT.Controllers
                 }
                 else
                 {
-                    return BadRequest("Invalid Credentials");
+                    return BadRequest("Invalid credentials");
                 }
             }
             else

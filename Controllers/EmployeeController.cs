@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace WebApiCoreJWT.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/employee")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
